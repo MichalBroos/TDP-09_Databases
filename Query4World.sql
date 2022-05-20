@@ -135,7 +135,7 @@ FROM
     country
 WHERE
     HeadOfState LIKE '%th II';
-# double check only 
+# double check only 1 head ends with th 'II'
 SELECT DISTINCT
     HeadOfState
 FROM
@@ -144,14 +144,43 @@ WHERE
     HeadOfState LIKE '%th II';
 
 # 13. List the top ten countries with the smallest population-to-area ratio. Discard any countries with a ratio of 0.
+SELECT
+    `Name`, Population / SurfaceArea AS pop_to_area_ratio
+FROM
+    country
+HAVING
+    pop_to_area_ratio > 0
+ORDER BY pop_to_area_ratio
+LIMIT 10;
+
+# 14. List every unique world language.
+SELECT DISTINCT
+    `Language`
+FROM
+    countrylanguage
+ORDER BY `Language`;
+
+# 15. List the names and GNP of the world's top 10 richest countries.
+SELECT
+    `Name`, GNP
+FROM
+    country
+ORDER BY GNP DESC
+LIMIT 10;
+
+# 16. List the names of, and number of languages spoken by, the top ten most multilingual countries.
+
+# 17. List every country where over 50% of its population can speak German.
+# 18. Which country has the worst life expectancy? Discard zero or null values.
+
+# 19. List the top three most common government forms.
+SELECT
+    GovernmentForm, COUNT(`Code`) AS no_of_countries
+FROM
+    country
+GROUP BY GovernmentForm
+ORDER BY no_of_countries DESC
+LIMIT 3;
+# 20.How many countries have gained independence since records began?
 
 
-/*
-14.	List every unique world language.
-15.	List the names and GNP of the world's top 10 richest countries.
-16.	List the names of, and number of languages spoken by, the top ten most multilingual countries.
-17.	List every country where over 50% of its population can speak German.
-18.	Which country has the worst life expectancy? Discard zero or null values.
-19.	List the top three most common government forms.
-20.	How many countries have gained independence since records began?
-*/
