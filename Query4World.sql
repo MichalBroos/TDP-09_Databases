@@ -135,7 +135,7 @@ FROM
     country
 WHERE
     HeadOfState LIKE '%th II';
-# double check only 1 head ends with th 'II'
+# double check only 1 head ends with 'th II'
 SELECT DISTINCT
     HeadOfState
 FROM
@@ -172,6 +172,15 @@ LIMIT 10;
 
 # 17. List every country where over 50% of its population can speak German.
 # 18. Which country has the worst life expectancy? Discard zero or null values.
+SELECT
+    `Name`, LifeExpectancy
+FROM
+    country
+WHERE LifeExpectancy IS NOT NULL AND LifeExpectancy > 0
+ORDER BY LifeExpectancy
+LIMIT 1;
+# SELECT `Name`, MIN(LifeExpectancy) wouldn't work because it would just show the first name and the minimum lifeExp which isn't necessarily of that country
+
 
 # 19. List the top three most common government forms.
 SELECT
