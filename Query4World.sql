@@ -40,13 +40,13 @@ WHERE
 
 # 5. Using JOIN ... ON, list all the languages spoken in the Southeast Asia region.
 SELECT DISTINCT
-	`Language`
+    `Language`
 FROM
-	country
-		JOIN
-	countrylanguage ON country.`Code` = CountryCode
+    country
+        JOIN
+    countrylanguage ON country.`Code` = CountryCode
 WHERE
-	Region = 'Southeast Asia';
+    Region = 'Southeast Asia';
 
 # 6. Using a single query, list 25 cities around the world that start with the letter F.
 SELECT 
@@ -58,10 +58,43 @@ WHERE
 LIMIT 25;
 
 # 7. Using COUNT and JOIN ... ON, get the number of cities in China.
+# careful, cannot have DISTINCT followed by count because that will just use the count as being distinct and give you a result including duplicates so need to first eliminate duplicates with SELECT DISTINCT and then COUNT them
+# including duplicates
+SELECT
+    COUNT(city.`Name`) AS no_of_cities_in_China
+FROM
+    city
+        JOIN
+    country ON city.CountryCode = country.`Code`
+WHERE
+    country.`Name` = 'China';
+# my extension to find the cities with duplicate entries
+SELECT
+    city.`Name`, COUNT(city.`Name`) AS occurrence
+FROM
+    city
+        JOIN
+    country ON city.CountryCode = country.`Code`
+WHERE
+    country.`Name` = 'China'
+GROUP BY city.`NAME`
+HAVING occurrence > 1;
+# excluding duplicates (first exclude duplicates in the nested query, then count the unique occurrences)
+SELECT
+    COUNT(no_duplicates.no_of_cities_in_China)
+FROM
+    (SELECT DISTINCT
+        city.`Name` AS no_of_cities_in_China
+    FROM
+        city
+            JOIN
+        country ON city.CountryCode = country.`Code`
+    WHERE
+        country.`Name` = 'China') AS no_duplicates;
+
+# 8. Using IS NOT NULL, ORDER BY, and LIMIT, which country has the lowest population? Discard non-zero populations.
 
 /*
-
-8.	Using IS NOT NULL, ORDER BY, and LIMIT, which country has the lowest population? Discard non-zero populations.
 9.	Using aggregate functions, return the number of countries the database contains.
 10.	What are the top ten largest countries by area?
 11.	List the five largest cities by population in Japan.
