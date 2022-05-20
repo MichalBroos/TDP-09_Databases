@@ -93,13 +93,60 @@ FROM
         country.`Name` = 'China') AS no_duplicates;
 
 # 8. Using IS NOT NULL, ORDER BY, and LIMIT, which country has the lowest population? Discard non-zero populations.
+SELECT
+    `Name`, Population
+FROM
+    country
+WHERE
+    Population IS NOT NULL AND Population > 0
+ORDER BY Population
+LIMIT 1;
+
+# 9. Using aggregate functions, return the number of countries the database contains.
+SELECT
+    COUNT(`Code`) AS no_of_countries
+FROM
+    country;
+
+# 10. What are the top ten largest countries by area?
+SELECT
+    `Name`, SurfaceArea
+FROM
+    country
+ORDER BY SurfaceArea DESC
+LIMIT 10;
+
+# 11. List the five largest cities by population in Japan.
+SELECT
+    city.`Name`, city.Population
+FROM
+    city
+        JOIN
+    country ON city.CountryCode = country.`Code`
+WHERE
+    country.`Name` = 'Japan'
+ORDER BY city.Population DESC
+LIMIT 5;
+
+# 12. List the names and country codes of every country with Elizabeth II as its Head of State. You will need to fix the mistake first!
+SELECT
+    `Name`, `Code`, HeadOfState
+FROM
+    country
+WHERE
+    HeadOfState LIKE '%th II';
+# double check only 
+SELECT DISTINCT
+    HeadOfState
+FROM
+    country
+WHERE
+    HeadOfState LIKE '%th II';
+
+# 13. List the top ten countries with the smallest population-to-area ratio. Discard any countries with a ratio of 0.
+
 
 /*
-9.	Using aggregate functions, return the number of countries the database contains.
-10.	What are the top ten largest countries by area?
-11.	List the five largest cities by population in Japan.
-12.	List the names and country codes of every country with Elizabeth II as its Head of State. You will need to fix the mistake first!
-13.	List the top ten countries with the smallest population-to-area ratio. Discard any countries with a ratio of 0.
 14.	List every unique world language.
 15.	List the names and GNP of the world's top 10 richest countries.
 16.	List the names of, and number of languages spoken by, the top ten most multilingual countries.
